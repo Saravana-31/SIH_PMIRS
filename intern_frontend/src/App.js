@@ -9,6 +9,7 @@ import ExplainableScoring from "./components/ExplainableScoring";
 import PreferenceWeights from "./components/PreferenceWeights";
 import ComparisonMode from "./components/ComparisonMode";
 import ExportFavorites from "./components/ExportFavorites";
+import ProfessionalCarousel from "./components/ProfessionalCarousel";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -354,7 +355,7 @@ function App() {
     };
   
     return (
-      <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-shadow duration-300">
+      <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
         <div className="flex justify-between items-start mb-4">
           <h3 className="text-xl font-semibold text-gray-900 leading-tight">{internship.title}</h3>
           <div className="flex items-center space-x-2">
@@ -451,7 +452,7 @@ function App() {
     };
 
     return (
-      <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl shadow-lg border border-purple-200 p-6 hover:shadow-xl transition-shadow duration-300">
+      <div className="bg-white rounded-xl shadow-lg border border-purple-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 bg-gradient-to-br from-purple-50 to-blue-50">
         <div className="flex justify-between items-start mb-4">
           <h3 className="text-xl font-semibold text-purple-900 leading-tight">{learningPath.title}</h3>
           <button
@@ -502,19 +503,64 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold text-gray-900">{t.find}</h1>
-            
-            <div className="flex items-center space-x-4">
+    <div className="min-h-screen bg-gray-50">
+      {/* Professional Header */}
+      <div className="bg-gradient-to-r from-blue-900 to-blue-800 text-white py-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center text-sm">
+            <div className="flex items-center space-x-3">
+              <span className="text-lg">🇮🇳</span>
+              <span className="font-medium">भारत सरकार / Government Of India</span>
+            </div>
+            <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-4">
+                <span className="text-gray-300">👍</span>
+                <span className="text-gray-300">🔊</span>
+              </div>
+              <select className="bg-transparent text-white border border-white border-opacity-30 rounded px-2 py-1 text-sm">
+                <option className="bg-blue-900">English</option>
+                <option className="bg-blue-900">Hindi</option>
+              </select>
+              <a href="#" className="text-gray-300 hover:text-white text-sm transition-colors">Screen Reader</a>
               <div className="flex items-center space-x-2">
+                <button className="text-gray-300 hover:text-white text-xs px-2 py-1 rounded">A-</button>
+                <button className="text-white text-xs px-2 py-1 rounded bg-white bg-opacity-20">A</button>
+                <button className="text-gray-300 hover:text-white text-xs px-2 py-1 rounded">A+</button>
+              </div>
+              <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
+                Youth Registration
+              </button>
+              <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
+                Login
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Professional Header */}
+      <header className="bg-white shadow-lg border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-4">
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
+                  <span className="text-white font-bold text-xl">🏛️</span>
+                </div>
+                <div>
+                  <div className="text-lg font-bold text-gray-900">PM Internship Portal</div>
+                  <div className="text-sm text-gray-600">Ministry of Corporate Affairs, Government of India</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-3">
                 <label className="text-sm font-medium text-gray-700">{t.selectLanguage}:</label>
                 <select 
                   value={language} 
                   onChange={(e) => setLanguage(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-white"
                 >
                   {Object.entries(languageNames).map(([code, name]) => (
                     <option key={code} value={code}>{name}</option>
@@ -522,43 +568,99 @@ function App() {
                 </select>
               </div>
               
-              <div className="flex items-center space-x-2">
-                <label className="text-sm font-medium text-gray-700">🔊 Voice:</label>
+              <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
-                  <label className="text-xs text-gray-600">Rate:</label>
-                  <input
-                    type="range"
-                    min="0.5"
-                    max="2"
-                    step="0.1"
-                    value={speechSettings.rate}
-                    onChange={(e) => setSpeechSettings({...speechSettings, rate: parseFloat(e.target.value)})}
-                    className="w-16"
-                  />
-                  <span className="text-xs text-gray-600 w-8">{speechSettings.rate.toFixed(1)}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <label className="text-xs text-gray-600">Pitch:</label>
-                  <input
-                    type="range"
-                    min="0.5"
-                    max="2"
-                    step="0.1"
-                    value={speechSettings.pitch}
-                    onChange={(e) => setSpeechSettings({...speechSettings, pitch: parseFloat(e.target.value)})}
-                    className="w-16"
-                  />
-                  <span className="text-xs text-gray-600 w-8">{speechSettings.pitch.toFixed(1)}</span>
+                  <span className="text-gray-500">🔊</span>
+                  <div className="flex items-center space-x-2">
+                    <label className="text-xs text-gray-600">Rate:</label>
+                    <input
+                      type="range"
+                      min="0.5"
+                      max="2"
+                      step="0.1"
+                      value={speechSettings.rate}
+                      onChange={(e) => setSpeechSettings({...speechSettings, rate: parseFloat(e.target.value)})}
+                      className="w-16"
+                    />
+                    <span className="text-xs text-gray-600 w-8">{speechSettings.rate.toFixed(1)}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <label className="text-xs text-gray-600">Pitch:</label>
+                    <input
+                      type="range"
+                      min="0.5"
+                      max="2"
+                      step="0.1"
+                      value={speechSettings.pitch}
+                      onChange={(e) => setSpeechSettings({...speechSettings, pitch: parseFloat(e.target.value)})}
+                      className="w-16"
+                    />
+                    <span className="text-xs text-gray-600 w-8">{speechSettings.pitch.toFixed(1)}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          
+          {/* Professional Navigation */}
+          <nav className="mt-6 flex space-x-8 border-t border-gray-100 pt-4">
+            <a href="#" className="text-blue-600 font-semibold text-sm hover:text-blue-800 border-b-2 border-blue-600 pb-1">HOME</a>
+            <a href="#" className="text-gray-600 hover:text-blue-600 text-sm flex items-center transition-colors">
+              GUIDELINES
+              <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </a>
+            <a href="#" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">GALLERY</a>
+            <a href="#" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">ELIGIBILITY</a>
+            <a href="#" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">MOBILE APP</a>
+            <a href="#" className="text-gray-600 hover:text-blue-600 text-sm flex items-center transition-colors">
+              SUPPORT
+              <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </a>
+            <a href="#" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">COMPENDIUM</a>
+          </nav>
         </div>
       </header>
 
+      {/* Professional Alert Banner */}
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <p className="text-sm text-blue-800">
+                <span className="font-semibold">Internship Screening & Selection Ongoing!</span> Check your dashboard, email, and SMS regularly. 
+                Confirm joining via the Internship tile on your dashboard.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Professional Carousel */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <ProfessionalCarousel />
+      </div>
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Search Criteria</h2>
+        {/* Professional Search Section */}
+        <div className="bg-white rounded-xl shadow-xl border border-gray-200 p-8 mb-8">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl shadow-lg mb-4">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">Find Your Perfect Internship</h2>
+            <p className="text-lg text-gray-600">Discover opportunities tailored to your skills and career goals</p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <MultiTagInput
               label={t.education}
@@ -611,7 +713,7 @@ function App() {
             <div className="flex items-end">
               <button 
                 onClick={handleSubmit} 
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 disabled={loading}
               >
                 {loading ? (
@@ -648,25 +750,29 @@ function App() {
           </div>
         </div>
 
-        {/* Action Buttons */}
+        {/* Professional Action Buttons */}
         {(results?.best_fit?.length > 0 || results?.growth?.length > 0 || results?.alternative?.length > 0) && (
-          <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Actions</h3>
-              <div className="flex space-x-3">
+          <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-8 mb-8">
+            <div className="text-center">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Take Action</h3>
+              <div className="flex justify-center space-x-4">
                 <button
                   onClick={() => setComparisonMode({ isOpen: true })}
-                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm flex items-center"
+                  className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-xl font-semibold flex items-center transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 >
-                  <span className="mr-2">🔄</span>
-                  Compare
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                  Compare Internships
                 </button>
                 <button
                   onClick={() => setExportMode({ isOpen: true })}
-                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm flex items-center"
+                  className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-3 rounded-xl font-semibold flex items-center transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 >
-                  <span className="mr-2">📄</span>
-                  Export PDF
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Export Results
                 </button>
               </div>
             </div>
@@ -730,20 +836,24 @@ function App() {
           </div>
         )}
 
+        {/* Results Section */}
         <div className="space-y-8">
           {(!loading && (!filteredResults?.best_fit?.length && !filteredResults?.growth?.length && !filteredResults?.alternative?.length && !filteredResults?.learningPaths?.length)) ? (
-            <div className="text-center py-12">
+            <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-12 text-center">
               <div className="text-gray-400 text-6xl mb-4">🔍</div>
               <p className="text-xl text-gray-600">{t.noResults}</p>
             </div>
           ) : (
             <>
               {filteredResults?.learningPaths?.length > 0 && (
-                <section>
-                  <h2 className="text-2xl font-bold text-purple-900 mb-6 flex items-center">
-                    <span className="mr-3">📚</span>
-                    Learning Paths
-                  </h2>
+                <section className="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
+                  <div className="text-center mb-8">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-purple-600 to-purple-700 rounded-xl shadow-lg mb-4">
+                      <span className="text-white text-lg">📚</span>
+                    </div>
+                    <h2 className="text-3xl font-bold text-purple-900 mb-2">Learning Paths</h2>
+                    <p className="text-gray-600">Structured learning journeys to enhance your skills</p>
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredResults.learningPaths.map((learningPath, index) => (
                       <LearningPathCard key={`learning-${index}`} learningPath={learningPath} index={index} />
@@ -753,11 +863,14 @@ function App() {
               )}
               
               {filteredResults?.best_fit?.length > 0 && (
-                <section>
-                  <h2 className="text-2xl font-bold text-green-900 mb-6 flex items-center">
-                    <span className="mr-3">🎯</span>
-                    Best Fit Internships ({filteredResults.best_fit.length})
-                  </h2>
+                <section className="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
+                  <div className="text-center mb-8">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-green-600 to-green-700 rounded-xl shadow-lg mb-4">
+                      <span className="text-white text-lg">🎯</span>
+                    </div>
+                    <h2 className="text-3xl font-bold text-green-900 mb-2">Best Fit Internships</h2>
+                    <p className="text-gray-600">Perfect matches based on your profile ({filteredResults.best_fit.length} opportunities)</p>
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredResults.best_fit.map((internship, index) => (
                       <InternshipCard key={`best-${index}`} internship={internship} index={index} />
@@ -767,11 +880,14 @@ function App() {
               )}
               
               {filteredResults?.growth?.length > 0 && (
-                <section>
-                  <h2 className="text-2xl font-bold text-orange-900 mb-6 flex items-center">
-                    <span className="mr-3">🚀</span>
-                    Growth Potential ({filteredResults.growth.length})
-                  </h2>
+                <section className="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
+                  <div className="text-center mb-8">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-orange-600 to-orange-700 rounded-xl shadow-lg mb-4">
+                      <span className="text-white text-lg">🚀</span>
+                    </div>
+                    <h2 className="text-3xl font-bold text-orange-900 mb-2">Growth Potential</h2>
+                    <p className="text-gray-600">High-growth opportunities for career advancement ({filteredResults.growth.length} opportunities)</p>
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredResults.growth.map((internship, index) => (
                       <InternshipCard key={`growth-${index}`} internship={internship} index={index} />
@@ -781,11 +897,14 @@ function App() {
               )}
               
               {filteredResults?.alternative?.length > 0 && (
-                <section>
-                  <h2 className="text-2xl font-bold text-blue-900 mb-6 flex items-center">
-                    <span className="mr-3">🌍</span>
-                    Alternative Opportunities ({filteredResults.alternative.length})
-                  </h2>
+                <section className="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
+                  <div className="text-center mb-8">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl shadow-lg mb-4">
+                      <span className="text-white text-lg">🌍</span>
+                    </div>
+                    <h2 className="text-3xl font-bold text-blue-900 mb-2">Alternative Opportunities</h2>
+                    <p className="text-gray-600">Explore diverse career paths and opportunities ({filteredResults.alternative.length} opportunities)</p>
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredResults.alternative.map((internship, index) => (
                       <InternshipCard key={`alt-${index}`} internship={internship} index={index} />
@@ -821,6 +940,72 @@ function App() {
         onClose={() => setExportMode({ isOpen: false })}
         language={language}
       />
+
+      {/* Professional Footer */}
+      <footer className="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-16 mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="md:col-span-2">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center mr-4">
+                  <span className="text-white font-bold text-xl">🏛️</span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold">PM Internship Portal</h3>
+                  <p className="text-gray-400 text-sm">Ministry of Corporate Affairs</p>
+                </div>
+              </div>
+              <p className="text-gray-300 text-sm leading-relaxed max-w-md">
+                A government initiative to provide quality internship opportunities and skill development 
+                programs for students across India, fostering innovation and career growth.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
+              <ul className="space-y-3 text-sm">
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Guidelines</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Eligibility</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Support</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Mobile App</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">FAQ</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-6">Partner Organizations</h3>
+              <div className="grid grid-cols-1 gap-3">
+                <div className="bg-white bg-opacity-10 rounded-lg px-4 py-3 text-center">
+                  <span className="text-sm font-semibold">ADITYA BIRLA</span>
+                </div>
+                <div className="bg-white bg-opacity-10 rounded-lg px-4 py-3 text-center">
+                  <span className="text-sm font-semibold">TATA GROUP</span>
+                </div>
+                <div className="bg-white bg-opacity-10 rounded-lg px-4 py-3 text-center">
+                  <span className="text-sm font-semibold">RELIANCE</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-gray-700 mt-12 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <p className="text-gray-400 text-sm">&copy; 2024 Government of India. All rights reserved.</p>
+              <div className="flex space-x-6 mt-4 md:mt-0">
+                <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
+                <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a>
+                <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Contact Us</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      {/* Professional Chat Icon */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white w-16 h-16 rounded-2xl shadow-2xl flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 }

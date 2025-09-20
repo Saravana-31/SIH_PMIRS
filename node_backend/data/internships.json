@@ -336,5 +336,18 @@
     "duration": "4 months",
     "stipend": "16000",
     "description": "Work on healthcare information systems, database management, and medical software development."
+  },
+  {
+    "id": "27",
+    "title": "Healthcare Intern",
+    "company": "MedTech Hospital",
+    "education": "B.Tech",
+    "department": "IT",
+    "sector": "Healthcare",
+    "location": "Kochi",
+    "skills": ["Healthcare Systems", "Database Management","Medical Surgeon"],
+    "duration": "4 months",
+    "stipend": "16000",
+    "description": "Work on healthcare information systems, database management, and medical software development."
   }
 ]

@@ -7,7 +7,7 @@
   
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #f8f9fa;
     min-height: 100vh;
     color: #333;
   }
@@ -590,5 +590,121 @@
     
     .tag {
       border: 1px solid #000;
+    }
+  }
+
+  /* Government Website Styling */
+  .gov-header {
+    background: linear-gradient(135deg, #1e3a8a, #1e40af);
+  }
+
+  .gov-main-banner {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gov-main-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-size: 60px 60px;
+    opacity: 0.1;
+  }
+
+  .gov-alert-banner {
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    border-left: 4px solid #2563eb;
+  }
+
+  .gov-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e7eb;
+    transition: all 0.3s ease;
+  }
+
+  .gov-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+  }
+
+  .gov-button {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 24px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .gov-button:hover {
+    background: linear-gradient(135deg, #ea580c, #dc2626);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+  }
+
+  .gov-footer {
+    background: linear-gradient(135deg, #1f2937, #111827);
+  }
+
+  /* Responsive Design for Government Layout */
+  @media (max-width: 1024px) {
+    .gov-main-banner .grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .gov-main-banner h1 {
+      font-size: 3rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .gov-header .flex {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .gov-header .space-x-4 {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .gov-main-banner h1 {
+      font-size: 2.5rem;
+    }
+    
+    .gov-main-banner .text-xl {
+      font-size: 1.125rem;
+    }
+    
+    .gov-footer .grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gov-main-banner {
+      padding: 2rem 0;
+    }
+    
+    .gov-main-banner h1 {
+      font-size: 2rem;
+    }
+    
+    .gov-main-banner .text-xl {
+      font-size: 1rem;
+    }
+    
+    .gov-card {
+      padding: 1rem;
     }
   }
