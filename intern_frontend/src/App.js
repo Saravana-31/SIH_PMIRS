@@ -10,6 +10,7 @@ import PreferenceWeights from "./components/PreferenceWeights";
 import ComparisonMode from "./components/ComparisonMode";
 import ExportFavorites from "./components/ExportFavorites";
 import ProfessionalCarousel from "./components/ProfessionalCarousel";
+import LearningPathDisplay from "./components/LearningPathDisplay";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -21,6 +22,7 @@ function App() {
   });
   const [results, setResults] = useState({ best_fit: [], growth: [], alternative: [], learningPaths: [] });
   const [filteredResults, setFilteredResults] = useState({ best_fit: [], growth: [], alternative: [], learningPaths: [] });
+  const [learningPathData, setLearningPathData] = useState(null);
   const [language, setLanguage] = useState("en");
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
@@ -169,6 +171,7 @@ function App() {
 
   const handleSubmit = async () => {
     setLoading(true);
+    setLearningPathData(null); // Clear previous learning path data
     const submitData = {
       education: formData.education[0] || "",
       department: formData.department[0] || "",
@@ -176,14 +179,25 @@ function App() {
       location: formData.location[0] || "",
       skills: formData.skills,
       preferences: preferences,
-      biasMitigation: biasMitigation
+      biasMitigation: biasMitigation,
+      language: language // Include selected language
     };
     try {
       // Try Node backend first
       const resNode = await axios.post("http://localhost:4000/recommend", submitData, { timeout: 4000 });
       const data = resNode?.data;
+      
+      // Check if it's a learning path response (new format)
+      if (data && data.status === 'no_matches' && data.learning_path) {
+        setLearningPathData(data);
+        setResults({ best_fit: [], growth: [], alternative: [], learningPaths: [] });
+        return;
+      }
+      
+      // Check if it has regular internship results
       const hasAny = !!(data && ((data.best_fit && data.best_fit.length) || (data.growth && data.growth.length) || (data.alternative && data.alternative.length)));
       if (hasAny) {
+        setLearningPathData(null);
         setResults({
           best_fit: data.best_fit || [],
           growth: data.growth || [],
@@ -751,7 +765,7 @@ function App() {
         </div>
 
         {/* Professional Action Buttons */}
-        {(results?.best_fit?.length > 0 || results?.growth?.length > 0 || results?.alternative?.length > 0) && (
+        {!learningPathData && (results?.best_fit?.length > 0 || results?.growth?.length > 0 || results?.alternative?.length > 0) && (
           <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-8 mb-8">
             <div className="text-center">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Take Action</h3>
@@ -780,7 +794,7 @@ function App() {
         )}
 
         {/* Filters Section */}
-        {(results?.best_fit?.length > 0 || results?.growth?.length > 0 || results?.alternative?.length > 0) && (
+        {!learningPathData && (results?.best_fit?.length > 0 || results?.growth?.length > 0 || results?.alternative?.length > 0) && (
           <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 mb-8">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Filter Results</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -838,7 +852,15 @@ function App() {
 
         {/* Results Section */}
         <div className="space-y-8">
-          {(!loading && (!filteredResults?.best_fit?.length && !filteredResults?.growth?.length && !filteredResults?.alternative?.length && !filteredResults?.learningPaths?.length)) ? (
+          {/* Learning Path Display */}
+          {learningPathData && (
+            <LearningPathDisplay 
+              learningPathData={learningPathData} 
+              language={language}
+            />
+          )}
+
+          {(!loading && !learningPathData && (!filteredResults?.best_fit?.length && !filteredResults?.growth?.length && !filteredResults?.alternative?.length && !filteredResults?.learningPaths?.length)) ? (
             <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-12 text-center">
               <div className="text-gray-400 text-6xl mb-4">🔍</div>
               <p className="text-xl text-gray-600">{t.noResults}</p>

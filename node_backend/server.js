@@ -2,15 +2,56 @@ import express from 'express';
 import cors from 'cors';
 import { MongoClient } from 'mongodb';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
 import fetch from 'node-fetch';
 import { getAllInternships, getById, filter, getDistinctValues } from './dataLoader.js';
+import LearningPathService from './learningPathService.js';
 
 // Load environment variables
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const ENV_PATH = path.join(__dirname, '.env');
+const envExists = fs.existsSync(ENV_PATH);
+// Helpful diagnostics in case env isn't being picked up
+console.log(`[env] cwd=${process.cwd()} __dirname=${__dirname} envPath=${ENV_PATH} exists=${envExists}`);
+dotenv.config({ path: ENV_PATH, override: true, debug: true });
+// Fallback: If nothing was loaded but file exists, try UTF-16LE or BOM decoding and manual parse
+if (envExists && !process.env.USE_JSON_DATA) {
+  try {
+    const raw = fs.readFileSync(ENV_PATH);
+    // Detect UTF-16LE by presence of many null bytes
+    const hasNulls = raw.includes(0x00);
+    let text;
+    if (hasNulls) {
+      text = raw.toString('utf16le');
+      console.log('[env] Detected potential UTF-16LE encoding, attempting manual parse');
+    } else {
+      // Also handle UTF-8 with BOM
+      text = raw.toString('utf8').replace(/^\uFEFF/, '');
+    }
+    const parsed = dotenv.parse(text);
+    const keys = Object.keys(parsed);
+    for (const k of keys) {
+      if (process.env[k] === undefined) {
+        process.env[k] = parsed[k];
+      }
+    }
+    console.log(`[env] Manual parse loaded ${keys.length} keys: ${keys.join(', ')}`);
+  } catch (e) {
+    console.warn('[env] Manual .env parse failed:', e?.message || e);
+  }
+}
+// Normalize flag once and reuse everywhere
+const USE_JSON = String(process.env.USE_JSON_DATA || '').toLowerCase() === 'true';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Initialize learning path service
+const learningPathService = new LearningPathService();
 
 // Mongo connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017';
@@ -379,7 +420,7 @@ app.post('/recommend', async (req, res) => {
     let docs = [];
 
     // Check if we should use JSON data or MongoDB
-    if (process.env.USE_JSON_DATA === 'true') {
+    if (USE_JSON) {
       console.log('📄 Using JSON data for recommendations');
       docs = getAllInternships();
     } else {
@@ -409,13 +450,33 @@ app.post('/recommend', async (req, res) => {
     const growth = filtered.filter(e => e.category === 'growth').slice(0, 10);
     const alternative = filtered.filter(e => e.category === 'alternative').slice(0, 10);
 
-    // Generate learning paths if no good matches
-    let learningPaths = [];
+    // Generate learning paths if no good matches using Grok API
     if (best_fit.length === 0 && growth.length === 0) {
-      learningPaths = generateLearningPaths(user);
+      try {
+        // Add language parameter to user profile for learning path generation
+        const userWithLanguage = { ...user, language: user.language || 'en' };
+        const learningPathResponse = await learningPathService.generateLearningPath(userWithLanguage);
+        return res.json(learningPathResponse);
+      } catch (error) {
+        console.error('Learning path generation failed:', error);
+        // Fallback to original learning paths if Grok API fails
+        const learningPaths = generateLearningPaths(user);
+        return res.json({ 
+          status: 'no_matches',
+          message: 'No direct internship matches found. Here are some learning suggestions.',
+          learning_path: learningPaths.map((path, index) => ({
+            step: index + 1,
+            skill: path.title,
+            resource: path.resources[0] || 'Online course',
+            description: path.description,
+            duration: path.duration,
+            difficulty: path.difficulty
+          }))
+        });
+      }
     }
 
-    res.json({ best_fit, growth, alternative, learningPaths });
+    res.json({ best_fit, growth, alternative });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -437,7 +498,7 @@ app.post('/chat_with_card', async (req, res) => {
 
     // Find the internship by ID
     let internship;
-    if (process.env.USE_JSON_DATA === 'true') {
+    if (USE_JSON) {
       internship = getById(internshipId);
     } else {
       // For MongoDB mode, we'd need to implement this
@@ -564,7 +625,7 @@ async function distinctLike(field, query) {
   if (!query || query.length < 1) return [];
   
   // Use JSON data if enabled
-  if (process.env.USE_JSON_DATA === 'true') {
+  if (USE_JSON) {
     return getDistinctValues(field, query);
   }
   
@@ -602,7 +663,8 @@ app.get('/autocomplete/:type', async (req, res) => {
 const PORT = process.env.PORT || 4000;
 
 // Only connect to MongoDB if not using JSON data
-if (process.env.USE_JSON_DATA === 'true') {
+console.log(`Startup mode: ${USE_JSON ? 'JSON' : 'MongoDB'} (USE_JSON_DATA='${process.env.USE_JSON_DATA}')`);
+if (USE_JSON) {
   console.log('📄 Starting server with JSON data mode');
   app.listen(PORT, () => console.log(`Node backend listening on :${PORT} (JSON mode)`));
 } else {

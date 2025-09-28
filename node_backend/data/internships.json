@@ -349,5 +349,83 @@
     "duration": "4 months",
     "stipend": "16000",
     "description": "Work on healthcare information systems, database management, and medical software development."
+  },
+   {
+    "id": "28",
+    "title": "Graduate Intern - Computer Science",
+    "company": "NLC India Limited",
+    "education": "B.Tech / M.Tech",
+    "department": "Computer Science",
+    "sector": "Energy & IT",
+    "location": "Neyveli, Tamil Nadu",
+    "skills": ["Computer Hardware", "Computer Science", "Computer Networks", "SIPs", "VoIP Protocols SIP", "SIP Trunking"],
+    "duration": "6 months",
+    "stipend": "18000",
+    "description": "Assist in the development and maintenance of IT systems, focusing on computer hardware, SIP protocols, and secure networking solutions for energy sector applications."
+  },
+  {
+    "id": "29",
+    "title": "Graduate Intern - Network Engineering",
+    "company": "Tata Consultancy Services (TCS)",
+    "education": "B.Tech / B.E. Computer Science",
+    "department": "IT Infrastructure",
+    "sector": "IT Services",
+    "location": "Chennai",
+    "skills": ["Computer Science", "Computer Networks", "VoIP Protocols", "SIP Trunking", "Hardware Troubleshooting"],
+    "duration": "5 months",
+    "stipend": "15000",
+    "description": "Support enterprise network operations, implement VoIP solutions, and assist in SIP trunking configurations to optimize client infrastructure."
+  },
+  {
+    "id": "30",
+    "title": "Graduate Intern - VoIP Systems",
+    "company": "Infosys Technologies",
+    "education": "B.Tech / M.Tech Computer Science",
+    "department": "Communication Systems",
+    "sector": "Telecommunications",
+    "location": "Bengaluru",
+    "skills": ["Computer Science", "VoIP Protocols SIP", "Computer Hardware", "SIP Trunking", "Network Security"],
+    "duration": "4 months",
+    "stipend": "17000",
+    "description": "Work with the telecom division to configure VoIP-based solutions, monitor SIP trunking efficiency, and support secure communication systems."
+  },
+  {
+    "id": "31",
+    "title": "Graduate Intern - IT & Network Security",
+    "company": "Wipro Limited",
+    "education": "B.Tech / B.E. Computer Science",
+    "department": "Cybersecurity & Networks",
+    "sector": "Information Technology",
+    "location": "Hyderabad",
+    "skills": ["Computer Networks", "VoIP Protocols SIP", "Computer Hardware", "Computer Science", "Firewall Configuration"],
+    "duration": "6 months",
+    "stipend": "20000",
+    "description": "Contribute to secure communication network projects involving SIP trunking, VoIP implementation, and computer hardware monitoring."
+  },
+  {
+    "id": "32",
+    "title": "Graduate Intern - IT Systems",
+    "company": "HCL Technologies",
+    "education": "B.Tech Computer Science",
+    "department": "Systems Engineering",
+    "sector": "IT Services",
+    "location": "Noida",
+    "skills": ["Computer Science", "Computer Hardware", "Computer Networks", "SIPs", "VoIP Protocols"],
+    "duration": "5 months",
+    "stipend": "16000",
+    "description": "Assist IT teams in configuring computer hardware, deploying VoIP solutions, and managing SIP protocols for enterprise-grade systems."
+  },
+  {
+    "id": "33",
+    "title": "Graduate Intern - Communication Engineering",
+    "company": "Tech Mahindra",
+    "education": "B.Tech / M.Tech Computer Science",
+    "department": "Telecom IT",
+    "sector": "Telecom",
+    "location": "Pune",
+    "skills": ["Computer Networks", "Computer Science", "VoIP Protocols SIP", "SIP Trunking", "Hardware Systems"],
+    "duration": "4 months",
+    "stipend": "17500",
+    "description": "Support telecom IT projects, focusing on VoIP-based communication, SIP trunking integrations, and computer network optimization."
   }
 ]
